@@ -9,7 +9,7 @@ Fs = 200;
 %Filter Design
 digfilt = designfilt('lowpassiir', 'PassbandFrequency', 20, 'StopbandFrequency', 25, 'PassbandRipple', 1, 'StopbandAttenuation', 60, 'SampleRate', 200);
 % Filtering Data
-Acc_EW_filt = filter(digfilt,Acc_EW);Acc_NS_filt = filter(digfilt,Acc_NS);Acc_ver_filt = filter(digfilt,Acc_ver);Fhp = 0.7;  
+Acc_EW_filt = filter(digfilt,Acc_EW);Acc_NS_filt = filter(digfilt,Acc_NS);Acc_ver_filt = filter(digfilt,Acc_ver);Fhp = 0.9;  
 [b1,a1] = butter(3,Fhp/Fs,'high'); % 
 fildat = filter(b1,a1,Acc_ver); %  
 vel = cumtrapz(fildat)./Fs; %  
@@ -57,8 +57,8 @@ end
     fprintf('P-Wave detection time for threshold 3 = %f second\n', tp1);
 %% S-wave arrival time
 pkHts = 0.72; % 10 percent
-[pk2,t22] = FKM_ANALYSIS(Acc_NS_dlycompensated,Fs,'MinPeakHeight',pkHts*max(Acc_ver_dlycompensated),'Npeaks',1);
-[pk3,t33] = FKM_ANALYSIS(Acc_EW_dlycompensated,Fs,'MinPeakHeight',pkHts*max(Acc_ver_dlycompensated),'Npeaks',1);
+[pk2,t22] = XGBOOST_ANALYSIS(Acc_NS_dlycompensated,Fs,'MinPeakHeight',pkHts*max(Acc_ver_dlycompensated),'Npeaks',1);
+[pk3,t33] = XGBOOST_ANALYSIS(Acc_EW_dlycompensated,Fs,'MinPeakHeight',pkHts*max(Acc_ver_dlycompensated),'Npeaks',1);
 
 display(sprintf('S-wave found on EW component at %f seconds and on NS componet at %f seconds,', t33,t22));
 
